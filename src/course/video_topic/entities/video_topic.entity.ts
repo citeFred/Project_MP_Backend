@@ -9,7 +9,7 @@ export class VideoTopic extends CommonEntity {
     video_topic_title: string;
     
     @ManyToOne(() => Course, course => course.videoTopic, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'course_id' })
+    @JoinColumn()
     course: Course;
 
     @OneToMany(() => Video, video => video.videoTopic, { cascade: true })

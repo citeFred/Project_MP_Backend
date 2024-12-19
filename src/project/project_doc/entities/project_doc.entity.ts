@@ -12,7 +12,7 @@ export class ProjectDoc extends CommonEntity {
     file_path: string;
 
     @ManyToOne(() => Project, (project) => project.project_docs)
-    @JoinColumn({ name: 'projectId' })
+    @JoinColumn()
     project: Project;
 
     @OneToMany(() => Feedback, (feedback) => feedback.projectDoc)

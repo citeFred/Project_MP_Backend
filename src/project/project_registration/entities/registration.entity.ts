@@ -29,11 +29,11 @@ export class ProjectRegistration extends CommonEntity {
 
     // project_registration - user
     @ManyToOne(() => User, (user) => user.project_registrations)
-    @JoinColumn({ name: 'user_id' })
+    @JoinColumn()
     user: User;
 
     // project_registration - project
     @ManyToOne(() => Project, (project) => project.project_registrations)
-    @JoinColumn({ name: 'project_id' }) 
+    @JoinColumn() 
     project: Project;
 }

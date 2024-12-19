@@ -15,7 +15,7 @@ export class DocName extends CommonEntity {
         nullable: true,
         onDelete: 'CASCADE'
     })
-    @JoinColumn({ name: 'pa_topic_id' })
+    @JoinColumn()
     pa_topic: DocName;
 
     @OneToMany(() => DocName, docName => docName.pa_topic, { 

@@ -14,6 +14,6 @@ export class CourseDoc extends CommonEntity {
     file_name: string;
 
     @ManyToOne(() => DocName, (docname) => docname.courseDocs, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'doc_name_id' })
+    @JoinColumn()
     docName: DocName;
 }

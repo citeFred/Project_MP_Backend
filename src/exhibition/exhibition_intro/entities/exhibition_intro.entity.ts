@@ -8,6 +8,6 @@ export class ExhibitionIntro extends CommonEntity {
     introduce: string;
 
     @ManyToOne(() => Exhibition, exhibition => exhibition.exhibitionIntros, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'exhibition_id', referencedColumnName: 'exhibition_id'})
+    @JoinColumn()
     exhibition: Exhibition;
 }

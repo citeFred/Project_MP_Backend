@@ -17,10 +17,10 @@ export class CourseRegistration extends CommonEntity {
     course_reporting_date: Date;
 
     @ManyToOne(() => User, (user) => user.course_registrations, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'userId' })
+    @JoinColumn()
     user: User;
 
     @ManyToOne(() => Course, (course) => course.course_registrations, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'courseId' })
+    @JoinColumn()
     course: Course; 
 }

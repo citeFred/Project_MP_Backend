@@ -12,7 +12,7 @@ export class Video extends CommonEntity {
     video_title: string;
     
     @ManyToOne(() => VideoTopic, (videotopic) => videotopic.videos, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'video_topic_id' })
+    @JoinColumn()
     videoTopic: VideoTopic;
 
     @Column({ nullable: true, type: 'text', name: 'summary' })

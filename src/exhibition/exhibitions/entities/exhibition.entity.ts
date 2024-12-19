@@ -37,6 +37,6 @@ export class Exhibition extends CommonEntity {
     @ManyToOne(() => User, user => user.exhibition, {
         onDelete: 'CASCADE',
     })
-    @JoinColumn({ name: 'userId' })
+    @JoinColumn()
     user: User[];
 }

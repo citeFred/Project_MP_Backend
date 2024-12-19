@@ -14,6 +14,6 @@ export class ExhibitionMember extends CommonEntity {
     file_path: string;
 
     @ManyToOne(() => Exhibition, exhibition => exhibition.exhibitionMembers, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'exhibition_id', referencedColumnName: 'exhibition_id'})
+    @JoinColumn()
     exhibition: Exhibition;
 }
