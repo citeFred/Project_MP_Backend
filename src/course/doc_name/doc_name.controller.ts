@@ -4,7 +4,7 @@ import { CreateDocNameDto } from './dto/create-doc_name.dto';
 import { UpdateDocNameDto } from './dto/update-doc_name.dto';
 import { DocNameWithCourseDocResponseDto } from './dto/doc_name-with-coursedoc-response.dto';
 
-@Controller('courses/:courseId/docNames')
+@Controller('api/courses/:courseId/docNames')
 export class DocNameController {
     constructor(private readonly docNameService: DocNameService) {}
 

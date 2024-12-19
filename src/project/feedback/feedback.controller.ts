@@ -9,7 +9,7 @@ import { Roles } from '../../auth/roles.decorator';
 import { ApprovedStudentGuard } from '../../auth/project.approved.guard';
 
 @UseGuards(JwtAuthGuard, RolesGuard, ApprovedStudentGuard)
-@Controller('projects/:project/projectDocs/:projectDoc/feedback')
+@Controller('api/projects/:project/projectDocs/:projectDoc/feedback')
 export class FeedbackController {
     constructor(private readonly feedbackService: FeedbackService) {}
 

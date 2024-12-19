@@ -8,7 +8,7 @@ import { Roles } from '../../auth/roles.decorator';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import { ApprovedStudentGuard } from '../../auth/project.approved.guard';
 @UseGuards(JwtAuthGuard,RolesGuard)
-@Controller('projects')
+@Controller('api/projects')
 export class ProjectsController {
     constructor(private readonly projectsService: ProjectsService) {}
  

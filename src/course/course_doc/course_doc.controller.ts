@@ -7,7 +7,7 @@ import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import { RolesGuard } from '../../auth/roles.guard';
 
 // @UseGuards(JwtAuthGuard,RolesGuard)
-@Controller('courses/:courseId/docNames/:topicId/courseDocs')
+@Controller('api/courses/:courseId/docNames/:topicId/courseDocs')
 export class CourseDocController {
     constructor(private readonly courseDocService: CourseDocService) {}
 

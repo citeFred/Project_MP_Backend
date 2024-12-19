@@ -5,7 +5,7 @@ import { CheckAttendanceDto } from './dto/check-attendance.dto';
 import { UpdateStudentAttendanceDto } from './dto/update-student-attendance.dto';
 import { Attendance } from './entities/attendance.entity';
 
-@Controller('attendance')
+@Controller('api/attendance')
 @UseGuards(JwtAuthGuard) // JWT 인증 가드 사용
 export class AttendanceController {
     constructor(private readonly attendanceService: AttendanceService) {}

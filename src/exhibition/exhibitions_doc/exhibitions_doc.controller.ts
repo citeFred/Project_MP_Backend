@@ -10,7 +10,7 @@ import { Roles } from '../../auth/roles.decorator';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 
 // @UseGuards(JwtAuthGuard,RolesGuard)
-@Controller('exhibition-docs')
+@Controller('api/exhibition-docs')
 export class ExhibitionsDocController {
     constructor(private readonly exhibitionDocsService: ExhibitionsDocService) {}
   

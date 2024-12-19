@@ -6,7 +6,7 @@ import { ExhibitionIntro } from './entities/exhibition_intro.entity';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 
-@Controller('exhibition-intro')
+@Controller('api/exhibition-intro')
 export class ExhibitionIntroController {
     constructor(private readonly exhibitionIntroService: ExhibitionIntroService) {}
 

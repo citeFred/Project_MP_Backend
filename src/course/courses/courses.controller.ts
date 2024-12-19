@@ -13,7 +13,7 @@ import { CourseWithCourseRegistrationResponseDto } from './dto/course-with-regis
 import { UpdateCourseDto } from './dto/update-course.dto';
 
 // @UseGuards(JwtAuthGuard,RolesGuard)
-@Controller('courses')
+@Controller('api/courses')
 export class CoursesController {
     constructor(private readonly coursesService: CoursesService) {}
 

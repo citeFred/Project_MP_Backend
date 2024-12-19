@@ -2,7 +2,7 @@ import { Controller, Post, Body, Get, Query, Res, Logger } from '@nestjs/common'
 import { AuthService } from './auth.service';
 import { ApiResponse } from 'src/common/api-response.dto';
 import { Response } from 'express';
-@Controller('auth')
+@Controller('api/auth')
 export class AuthController {
     private readonly logger = new Logger(AuthController.name);
     

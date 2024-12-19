@@ -6,7 +6,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { OwnershipGuard } from '../auth/ownership.guard';
 import { User } from './entities/user.entity';
 
-@Controller('users')
+@Controller('api/users')
 export class UsersController {
     constructor(private readonly usersService: UsersService,
     ) {}

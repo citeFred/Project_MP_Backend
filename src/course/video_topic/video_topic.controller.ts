@@ -6,7 +6,7 @@ import { VideoTopicResponseDto } from './dto/video_topic-response.dto';
 import { CreateVideoTopicDto } from './dto/create-video_topic.dto';
 import { VideoTopicWithVideoTitle } from './dto/video_topic-with-video-name.dto';
 
-@Controller('courses/:courseId/videoTopics')
+@Controller('api/courses/:courseId/videoTopics')
 export class VideoTopicController {
     constructor(private readonly videoTopicService: VideoTopicService) {}
 

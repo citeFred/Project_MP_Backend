@@ -9,7 +9,7 @@ import { ApiResponse } from 'src/common/api-response.dto';
 import { videoSummary } from './dto/videosummary.dto';
 
 
-@Controller('courses/:courseId/:videoTopicId/video')
+@Controller('api/courses/:courseId/:videoTopicId/video')
 export class VideoController {
     constructor(private readonly videoService: VideoService,
                private readonly openaiService: OpenaiService
