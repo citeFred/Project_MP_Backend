@@ -42,19 +42,6 @@ export class CoursesController {
         };
     }
 
-    // status
-    // @Get('/registration-status/:id')
-    // // @Roles('student','instructor','admin')
-    // async findStatus(
-    //     @Param('id') id: number,
-    // ): Promise<{ message: string; data: CourseResponseDto }> {
-    //     const data = await this.coursesService.findStatus(id);
-    //     return {
-    //         message: "강의 조회에 성공하셨습니다",
-    //         data: data
-    //     };
-    // }
-
     // 관리자 강의 삭제
     @Delete(':id/delete')
     // @UseGuards(OwnershipGuard)
@@ -137,15 +124,4 @@ export class CoursesController {
             data: data
         };
     }
-
-    // @Get(':id/read')
-    // async findOne(
-    //   @Param('id') id: number
-    // ): Promise<{ message: string; data: DocNameResponseDto }> {
-    //     const data = await this.coursesService.findOne(id);
-    //     return {
-    //         message: "특정 강의 조회에 성공하셨습니다",
-    //         data: data
-    //     };
-    // }
 }

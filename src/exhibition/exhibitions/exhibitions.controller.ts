@@ -17,15 +17,14 @@ export class ExhibitionController {
 
     @Post('register')
     @Roles('admin')
-    @UseInterceptors(FileInterceptor('file')) // 'file'은 전송할 파일의 필드 이름입니다.
+    @UseInterceptors(FileInterceptor('file'))
     async create(
         // @Request() req,
         @Body() createExhibitionDto: CreateExhibitionDto,
-        @UploadedFile() file: Express.Multer.File // 파일을 인자로 받음
+        @UploadedFile() file: Express.Multer.File
     ): Promise<{ message: string; exhibition_id: number }> {
-        // createExhibitionDto.user_id = req.user.id;
         const exhibition = await this.exhibitionService.create(createExhibitionDto, file);
-        return { message: '등록이 완료되었습니다', exhibition_id: exhibition.exhibition_id }; // exhibition_id 포함
+        return { message: '등록이 완료되었습니다', exhibition_id: exhibition.id };
     }
 
     // 모든 전시 조회
@@ -75,12 +74,12 @@ export class ExhibitionController {
     // @Roles('admin')
     async update(
     @Param('exhibition_title') exhibitionTitle: string,
-    @Body() body: UpdateExhibitionDto // DTO 사용
+    @Body() body: UpdateExhibitionDto
     ): Promise<{ message: string }> {
     try {
         await this.exhibitionService.updateExhibition(
             exhibitionTitle,
-            body // 두 번째 인자로 DTO를 전달
+            body
         );
 
         return { message: '전시 정보가 성공적으로 업데이트되었습니다.' };

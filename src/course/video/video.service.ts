@@ -6,12 +6,9 @@ import { VideoTopic } from '../video_topic/entities/video_topic.entity';
 import { Video } from './entities/video.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
-import { Response } from 'express';
-import { Readable } from 'stream';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { UpdateVideoDto } from './dto/update-video.dto';
 import { CreateVideoDto } from './dto/create-video.dto';
-import { create } from 'domain';
 import { VideoResponseDto } from './dto/video-response.dto';
 import { ApiResponse } from 'src/common/api-response.dto';
 import { OpenaiService } from 'src/openai/openai.service';
@@ -68,117 +65,18 @@ export class VideoService {
         videoTopicId: number,
     ): Promise<void> {
         const CourseId = await this.coursesRepository.findOne({
-            where: { course_id: courseId }
+            where: { id: courseId }
         })
         if (!CourseId) {
             throw new NotFoundException('강의를 찾을 수 없습니다.')
         }
         const VideoTopic = await this.videoTopicRepository.findOne({
-            where: { video_topic_id :videoTopicId }
+            where: { id :videoTopicId }
         })
         if (!VideoTopic) {
             throw new NotFoundException('비디오 주제를 찾을 수 없습니다.')
         }
     }
-
-    // async create(
-    //     courseTitle: string, 
-    //     videoTopicId: number, 
-    //     createVideoDto: CreateVideoDto
-    // ): Promise<Video> {
-    //     await this.validate(courseTitle, videoTopicId);
-    //     const video = this.videoRepository.create({ 
-    //         ...createVideoDto 
-    //     })
-    //     return this.videoRepository.save(video);
-    // } 
-
-    // async findAll(
-    //     courseTitle: string, 
-    //     videoTopicId: number, 
-    // ): Promise<Video[]> {
-    //     await this.validate(courseTitle, videoTopicId);
-    //     return await this.videoRepository.find();
-    // }
-
-    // async findOne(
-    //     courseTitle: string, 
-    //     videoTopicId: number, 
-    //     id: number
-    // ): Promise<Video> {
-    //     await this.validate(courseTitle, videoTopicId);
-    //     const video = await this.videoRepository.findOne({
-    //         where: { video_id: id }
-    //     })
-    //     return video;
-    // }
-
-    // async update(
-    //     courseTitle: string, 
-    //     videoTopicId: number, 
-    //     id: number, 
-    //     updateVideoDto: UpdateVideoDto
-    // ): Promise<Video> {
-    //     const video = await this.findOne(courseTitle, videoTopicId, id);
-    //     await this.videoRepository.update(video.video_id, updateVideoDto);
-    //     return this.findOne(courseTitle, videoTopicId, video.video_id);
-    // } // 바뀐 객체 반환
-    
-
-    // async remove(
-    //     courseTitle: string, 
-    //     videoTopicId: number, 
-    //     id: number
-    // ): Promise<Video> {
-    //     const video = await this.findOne(courseTitle, videoTopicId, id);
-    //     await this.videoRepository.remove(video);
-    //     return video; // 삭제된 비디오 객체를 반환
-    // }
-
-    // Express를 활용해 영상 직접 스트리밍하는 service 코드
-    // async streamVideo(
-    //     courseId: number, 
-    //     videoTopicId: number,
-    //     video_id: number,
-    //     res: Response
-    // ): Promise<void> {
-    //     await this.validate(courseId, videoTopicId);
-
-    //     const video = await this.videoRepository.findOne({
-    //         where: { video_id }
-    //     });
-
-    //     if (!video || !video.video_url) {
-    //         throw new NotFoundException('비디오를 찾을 수 없습니다.');
-    //     }
-
-    //     const bucketName = process.env.AWS_S3_BUCKET_NAME;
-    //     if (!bucketName) {
-    //         throw new Error('AWS S3 bucket name is not configured');
-    //     }
-
-    //     try {
-    //         const command = new GetObjectCommand({
-    //             Bucket: bucketName,
-    //             Key: video.video_url,
-    //         });
-
-    //         const data = await this.s3.send(command);
-    //         const stream = data.Body as Readable; // 타입을 Readable로 명시적으로 지정
-
-    //         if (!stream) {
-    //             throw new Error('파일 스트림을 가져올 수 없습니다.');
-    //         }
-    //         res.setHeader('Content-Type', 'video/mp4'); // MIME 타입 설정
-    //         res.setHeader('Accept-Ranges', 'bytes'); // 바이트 범위 수신 허용
-
-    //         // 스트리밍을 위해 파이프하기
-    //         stream.pipe(res);
-    //     } catch (error) {
-    //         console.error('비디오 스트리밍 실패:', error);
-    //         throw new InternalServerErrorException(`비디오 스트리밍에 실패했습니다: ${error.message}`);
-    //     }
-    // }
     
     async streamVideo(
         courseId: number, 
@@ -190,7 +88,7 @@ export class VideoService {
 
         // 비디오 정보 조회
         const video = await this.videoRepository.findOne({
-            where: { video_id: video_id }
+            where: { id: video_id }
         });
 
         if (!video || !video.video_url) {
@@ -279,7 +177,7 @@ export class VideoService {
     ): Promise<void> {
         try {
             const videoTopic = await this.videoTopicRepository.findOne({
-                where:{ video_topic_id: videoTopicId}
+                where:{ id: videoTopicId}
             })
             if (!videoTopic) {
                 throw new NotFoundException("해당 영상의 주제를 찾을 수 없습니다.");
@@ -308,7 +206,7 @@ export class VideoService {
             await this.validate(courseId, videoTopicId);
 
             const video = await this.videoRepository.findOne({
-                where: { video_id: id }
+                where: { id: id }
             });
 
             if (!video || !video.video_url) {
@@ -326,11 +224,11 @@ export class VideoService {
     async removeFile(
         courseId: number,
         videoTopicId: number,
-        video_id: number
+        videoId: number
     ): Promise<void> {
         await this.validate(courseId, videoTopicId);
         const video = await this.videoRepository.findOne({
-            where: { video_id }
+            where: { id : videoId }
         });
         
         if (!video || !video.video_url) {
@@ -359,7 +257,7 @@ export class VideoService {
     async findVideo(courseId: number, videoTopicId: number, id: number): Promise<Video> {
         await this.validate(courseId, videoTopicId);
         const video = await this.videoRepository.findOne({
-            where: { video_id: id }
+            where: { id: id }
         });
         return video;
     }
@@ -398,10 +296,10 @@ export class VideoService {
     async findSummary(courseId: number, videoTopicId: number, id: number): Promise<ApiResponse<videoSummary>> {
         await this.validate(courseId, videoTopicId);
         const video = await this.videoRepository.findOne({
-            where: { video_id: id }
+            where: { id: id }
         });
         console.log('조회된 비디오 정보:', {
-            video_id: video?.video_id,
+            video_id: video?.id,
             video_title: video?.video_title,
             summary: video?.summary,  // DB에 있는 실제 값 확인
             summaryType: typeof video?.summary  // 데이터 타입 확인

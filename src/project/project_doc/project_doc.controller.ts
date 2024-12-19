@@ -16,11 +16,11 @@ export class ProjectDocController {
 
     @Post('register')
     @Roles('instructor','student','admin')
-    @UseInterceptors(FileInterceptor('file'))  // 'file' 필드에서 파일을 업로드 받음
+    @UseInterceptors(FileInterceptor('file'))
     async create(
         @Param('projectId') projectId: number,
         @Body() createProjectDocDto: CreateProjectDocDto, 
-        @UploadedFile() file: Express.Multer.File,// 업로드된 파일을 가져옴
+        @UploadedFile() file: Express.Multer.File,
     ): Promise<{ message: string; doc: any }> {
 
         const doc = await this.projectDocsService.create(projectId, createProjectDocDto, file);

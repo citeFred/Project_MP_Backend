@@ -1,11 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { DocName } from '../../doc_name/entities/doc_name.entity';
+import { CommonEntity } from 'src/common/common.entity';
 
 @Entity()
-export class CourseDoc {
-    @PrimaryGeneratedColumn()
-    course_document_id: number;
-
+export class CourseDoc extends CommonEntity {
     @CreateDateColumn({ nullable: true })
     upload_date: Date; 
     

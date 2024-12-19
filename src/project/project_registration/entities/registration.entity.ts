@@ -1,14 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Project } from '../../projects/entities/project.entity';
 import { User } from 'src/user/entities/user.entity';
 import { RegistrationStatus } from 'src/enums/registration-status.enum';
 import { TeamRole } from 'src/enums/team-role.enum';
+import { CommonEntity } from 'src/common/common.entity';
 
 @Entity()
-export class ProjectRegistration {
-    @PrimaryGeneratedColumn()
-    project_registration_id: number;
-
+export class ProjectRegistration extends CommonEntity {
     @Column({ type: 'timestamp', nullable: false })
     reporting_date: Date;
 
@@ -31,11 +29,11 @@ export class ProjectRegistration {
 
     // project_registration - user
     @ManyToOne(() => User, (user) => user.project_registrations)
-    @JoinColumn({ name: 'user_id' }) // 외래 키 지정
+    @JoinColumn({ name: 'user_id' })
     user: User;
 
     // project_registration - project
     @ManyToOne(() => Project, (project) => project.project_registrations)
-    @JoinColumn({ name: 'project_id' }) // 외래 키 지정
+    @JoinColumn({ name: 'project_id' }) 
     project: Project;
 }

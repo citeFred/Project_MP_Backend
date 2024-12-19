@@ -23,8 +23,8 @@ export class ProjectRegistrationService {
     async isEnrolled(projectId: number, userId: number): Promise<boolean> {
         const existingEnrollment = await this.projectRegistrationRepository.findOne({
             where: {
-                project: { project_id: projectId }, // 프로젝트 ID로 필터링
-                user: { user_id: userId }, // 사용자 ID로 필터링
+                project: { id: projectId }, // 프로젝트 ID로 필터링
+                user: { id: userId }, // 사용자 ID로 필터링
             },
         });
 
@@ -33,7 +33,7 @@ export class ProjectRegistrationService {
 
     // 프로젝트 ID가 유효한지 확인하는 함수
     async validateProjectId(projectId: number): Promise<void> {
-        const project = await this.projectsRepository.findOne({ where: { project_id: projectId } });
+        const project = await this.projectsRepository.findOne({ where: { id: projectId } });
         if (!project) {
             throw new NotFoundException(`Project with ID ${projectId} not found`);
         }
@@ -51,8 +51,8 @@ export class ProjectRegistrationService {
     
         // 처음 참가 신청
         const projectRegistration = this.projectRegistrationRepository.create(createProjectRegistrationDto);
-        projectRegistration.user = await this.userRepository.findOneBy({ user_id: loginedUser });  // 특정 사용자와 연결된 정보
-        projectRegistration.project = await this.projectsRepository.findOneBy({ project_id: projectId });  // 특정 프로젝트와 연결된 정보
+        projectRegistration.user = await this.userRepository.findOneBy({ id: loginedUser });  // 특정 사용자와 연결된 정보
+        projectRegistration.project = await this.projectsRepository.findOneBy({ id: projectId });  // 특정 프로젝트와 연결된 정보
         return await this.projectRegistrationRepository.save(projectRegistration);
     }
     
@@ -63,7 +63,7 @@ export class ProjectRegistrationService {
         return info.map(registration => ({
             projectRegistration: registration,
             userName: registration.user.user_name,
-            userId: registration.user.id,
+            userId: registration.user.account_id,
             projectTopic: registration.project.topic,
         }));
     }
@@ -71,7 +71,7 @@ export class ProjectRegistrationService {
     async findOne(id: number, projectId: number): Promise<ProjectRegistration> {
         await this.validateProjectId(projectId);
     
-        const registration = await this.projectRegistrationRepository.findOne({ where: { project_registration_id: id } });
+        const registration = await this.projectRegistrationRepository.findOne({ where: { id: id } });
         if (!registration) {
             throw new NotFoundException(`Registration with ID ${id} not found`);
         }

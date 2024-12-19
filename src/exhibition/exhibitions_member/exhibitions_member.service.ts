@@ -51,11 +51,11 @@ export class ExhibitionsMemberService {
         const members: ExhibitionMember[] = [];
 
         const exhibitionExists = await this.exhibitionRepository.findOne({
-            where: { exhibition_id: createExhibitionsMembersDto.exhibitions_id }
+            where: { id: createExhibitionsMembersDto.id }
         });
 
         if (!exhibitionExists) {
-            throw new NotFoundException(`Exhibition with ID ${createExhibitionsMembersDto.exhibitions_id} not found.`);
+            throw new NotFoundException(`Exhibition with ID ${createExhibitionsMembersDto.id} not found.`);
         }
 
         // 각 멤버를 순회하면서 파일을 연결
@@ -84,7 +84,7 @@ export class ExhibitionsMemberService {
             // 새로운 전시 멤버 생성
             const exhibitionMember = this.exhibitionMemberRepository.create({
                 ...memberData,
-                exhibition: { exhibition_id: createExhibitionsMembersDto.exhibitions_id },
+                exhibition: { id: createExhibitionsMembersDto.id },
                 file_path: filePath, // S3에서 반환된 URL을 file_path에 저장
             });
 
@@ -100,7 +100,7 @@ export class ExhibitionsMemberService {
 
     async findOne(id: number): Promise<ExhibitionMember> {
         const member = await this.exhibitionMemberRepository.findOne({
-            where: { exhibition_member_id: id },
+            where: { id: id },
             relations: ['exhibition'],
         });
 
@@ -115,10 +115,10 @@ export class ExhibitionsMemberService {
         const member = await this.findOne(id); // 존재 여부 확인
     
         // 외래 키 유효성 확인 (exhibitions_id가 필요한 경우)
-        if (updateData.exhibitions_id) {
-            const exhibition = await this.exhibitionService.findOne((updateData.exhibitions_id));
+        if (updateData.id) {
+            const exhibition = await this.exhibitionService.findOne((updateData.id));
             if (!exhibition) {
-                throw new NotFoundException(`Exhibition with ID ${updateData.exhibitions_id} not found`);
+                throw new NotFoundException(`Exhibition with ID ${updateData.id} not found`);
             }
         }
     
@@ -170,7 +170,7 @@ export class ExhibitionsMemberService {
 
     async getSignedUrl(exhibition_member_id: number): Promise<string> {
         const exhibitionMember = await this.exhibitionMemberRepository.findOne({
-            where: { exhibition_member_id: exhibition_member_id}
+            where: { id: exhibition_member_id}
         })
         if(!exhibitionMember){
             console.error('유효하지 않은 exhibition_member_id:', exhibition_member_id);
@@ -189,7 +189,7 @@ export class ExhibitionsMemberService {
             return signedUrl; // URL 반환
         } catch (error) {
             console.error('프리사인드 URL 생성 실패:', error);
-            throw new Error('프리사인드 URL 생성 중 오류가 발생했습니다.'); // 오류 발생
+            throw new Error('프리사인드 URL 생성 중 오류가 발생했습니다.');
         }
     }
 }

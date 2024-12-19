@@ -9,14 +9,13 @@ export class DocNameWithCourseDocResponseDto {
     sub_topics?: DocNameWithCourseDocResponseDto[];
     
     constructor(docName: DocName) {
-        this.topic_id = docName.topic_id;
+        this.topic_id = docName.id;
         this.topic_title = docName.topic_title;
         this.pa_topic_id = docName.pa_topic_id;
         this.course_doc = docName.courseDocs 
             ? docName.courseDocs.map(courseDoc => new CourseDocResponseDto(courseDoc))
             : [];
             
-        // subTopics relation이 있는 경우에만 변환
         if (docName.subTopics && docName.subTopics.length > 0) {
             this.sub_topics = docName.subTopics.map(
                 subTopic => new DocNameWithCourseDocResponseDto(subTopic)

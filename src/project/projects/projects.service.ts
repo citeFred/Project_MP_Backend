@@ -8,7 +8,6 @@ import { ProjectRegistration } from '../project_registration/entities/registrati
 import { User } from 'src/user/entities/user.entity';
 import { RegistrationStatus } from 'src/enums/registration-status.enum';
 
-
 @Injectable()
 export class ProjectsService {
     private readonly logger = new Logger(ProjectsService.name);
@@ -24,9 +23,9 @@ export class ProjectsService {
     async isApprovedStudent(loginedUserId: number, projectId: number): Promise<boolean> {
         const registration = await this.projectRegistrationRepository.findOne({
             where: {
-                user: { user_id: loginedUserId }, // 현재 로그인한 사용자 ID
-                project: { project_id: projectId }, // 현재 프로젝트 ID
-                registration_status: RegistrationStatus.APPROVED, // 승인된 상태 확인
+                user: { id: loginedUserId },
+                project: { id: projectId },
+                registration_status: RegistrationStatus.APPROVED,
             },
         });
         return !!registration;
@@ -51,7 +50,7 @@ export class ProjectsService {
     }
     
     async findOne(id: number): Promise<Project> {
-        const project = await this.projectsRepository.findOne({ where: { project_id: id } });
+        const project = await this.projectsRepository.findOne({ where: { id: id } });
         if (!project) {
             if (!project) {
                 this.logger.warn(`Project with ID ${id} not found`);
@@ -78,7 +77,7 @@ export class ProjectsService {
             const existingTeam = await this.projectsRepository.findOne({
                 where: { team_name },
             });
-            if (existingTeam && existingTeam.project_id !== id) {
+            if (existingTeam && existingTeam.id !== id) {
                 throw new ConflictException(`${team_name}팀은(는) 이미 존재합니다.`);
             }
         }
@@ -88,7 +87,7 @@ export class ProjectsService {
             const existingTitle = await this.projectsRepository.findOne({
                 where: { topic },
             });
-            if (existingTitle && existingTitle.project_id !== id) {
+            if (existingTitle && existingTitle.id !== id) {
                 throw new ConflictException(`프로젝트 topic이(가) 이미 존재합니다.`);
             }
         }

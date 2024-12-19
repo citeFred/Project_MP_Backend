@@ -3,7 +3,6 @@ import { RegistrationStatus } from 'src/enums/registration-status.enum';
 import { TeamRole } from 'src/enums/team-role.enum';
 
 export class UpdateProjectRegistrationDto {
-
     @IsOptional()
     @IsEnum(RegistrationStatus)
     registration_status?: RegistrationStatus;

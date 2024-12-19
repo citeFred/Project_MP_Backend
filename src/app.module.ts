@@ -41,7 +41,7 @@ import { typeOrmConfig } from './configs/typeorm.config';
 
 @Module({
     imports: [
-        ConfigModule.forRoot(), // ConfigModule 추가
+        ConfigModule.forRoot(),
         TypeOrmModule.forRoot(typeOrmConfig),
 
         MulterModule.register({

@@ -52,19 +52,15 @@ export class AuthService {
         }
     
         const approvedCourseIds = user.course_registrations
-        // ?.filter(registration => {
-        //     console.log('Registration status:', registration.course_registration_status);
-        //     console.log('Registration course:', registration.course);
-        //     return registration.course_registration_status === 'APPROVED' && registration.course;
-        // })
+
         ?.map(registration => {
             console.log('Mapping course:', registration.course);
-            return registration.course.course_id; // 또는 course_id depending on your entity structure
+            return registration.course.id;
         }) || [];
 
         console.log('Approved course IDs:', approvedCourseIds);
         
-        const token = this.jwtService.sign({ id: user.user_id, role: user.user_role, name: user.user_name, email: user.email, courseIds: approvedCourseIds }); // 여기에 id, role 등 추가해서 보내줘야 함.
+        const token = this.jwtService.sign({ id: user.id, role: user.user_role, name: user.user_name, email: user.email, courseIds: approvedCourseIds }); // 여기에 id, role 등 추가해서 보내줘야 함.
         return token;
     }
 
@@ -80,7 +76,7 @@ export class AuthService {
         const kakaoUsername = kakaoAccount.name;
         const kakaoUsernickname = kakaoAccount.profile.nickname; // nickname 사용
         const kakaoEmail = kakaoAccount.email;
-        const userId =  uuidv4();
+        const account_id =  uuidv4();
     
         // 카카오 프로필 데이터를 기반으로 사용자 찾기 또는 생성 로직을 구현
         const existingUser = await this.userRepository.findOne({ where: { email: kakaoEmail } });
@@ -95,7 +91,7 @@ export class AuthService {
         
         // 새 사용자 생성 로직
         const newUser = this.userRepository.create({
-            id: userId,
+            account_id: account_id,
             user_name: kakaoUsername,
             nick_name: kakaoUsernickname,
             email: kakaoEmail,

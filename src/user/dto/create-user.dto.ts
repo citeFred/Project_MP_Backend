@@ -8,7 +8,7 @@ export class CreateUserDto {
 
     @IsString()
     @IsNotEmpty()
-    id: string;
+    account_id: string;
 
     @IsString()
     @IsNotEmpty()
@@ -27,10 +27,9 @@ export class CreateUserDto {
     @IsNotEmpty()
     nick_name: string;
 
-    @IsEnum(UserRole) // enum 검증 추가
+    @IsEnum(UserRole)
     user_role: UserRole;
 
-    // DTO 내에서 추가 검증 로직 작성
     validatePasswords() {
         if (this.password !== this.passwordConfirm) {
             throw new Error('Passwords do not match');

@@ -1,14 +1,12 @@
-import { Entity, Column, ManyToOne, OneToMany, PrimaryGeneratedColumn, JoinColumn } from 'typeorm';
+import { Entity, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
 import { ExhibitionDoc } from '../../exhibitions_doc/entities/exhibition_doc.entity';
 import { ExhibitionMember } from '../../exhibitions_member/entities/exhibition_member.entity';
 import { ExhibitionIntro } from '../../exhibition_intro/entities/exhibition_intro.entity';
 import { User } from 'src/user/entities/user.entity';
+import { CommonEntity } from 'src/common/common.entity';
 
 @Entity()
-export class Exhibition {
-    @PrimaryGeneratedColumn()
-    exhibition_id: number;
-
+export class Exhibition extends CommonEntity {
     @Column()
     generation: string;
 
@@ -18,12 +16,11 @@ export class Exhibition {
     @Column()
     description: string;
     
-    @Column({ type: 'timestamp' }) // timestamp 타입으로 설정
-    exhibition_date: Date; // 날짜와 시간을 함께 저장
-
+    @Column({ type: 'timestamp' })
+    exhibition_date: Date;
     
     @Column()
-    file_path: string; // 파일 경로
+    file_path: string;
     
     @Column()
     team_name: string; 
@@ -38,8 +35,8 @@ export class Exhibition {
     exhibitionIntros: ExhibitionIntro[];
 
     @ManyToOne(() => User, user => user.exhibition, {
-        onDelete: 'CASCADE', // 사용자가 삭제될 때 전시도 삭제
+        onDelete: 'CASCADE',
     })
-    @JoinColumn({ name: 'user_id' }) // 외래 키 설정
-    user: User[]; // 사용자 정보
+    @JoinColumn({ name: 'userId' })
+    user: User[];
 }

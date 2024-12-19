@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, Logger, HttpException, HttpStatus, BadRequestException, ConflictException, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, NotFoundException, Logger, HttpException, HttpStatus, InternalServerErrorException } from '@nestjs/common';
 import { Course } from './entities/course.entity';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
@@ -42,7 +42,7 @@ export class CoursesService {
 
     async findMy(id: number): Promise<CourseResponseDto> {
         const course = await this.coursesRepository.findOne({
-            where: { course_id: id },
+            where: { id: id },
             relations: ['user']  // 필요한 relations만 추가
         });
 
@@ -60,7 +60,7 @@ export class CoursesService {
 
     async findOne(id: number): Promise<Course> {
         const course = await this.coursesRepository.findOne(
-            { where: { course_id: id },
+            { where: { id: id },
             relations: ['docName','user'] 
         });
         if (!course) {
@@ -71,7 +71,7 @@ export class CoursesService {
 
     async findCourseWithDocnameAndCourseDoc(courseId: number): Promise<CourseWithDocNameAndCourseDocResponseDto> {
         const course = await this.coursesRepository.findOne({
-            where: { course_id: courseId },
+            where: { id: courseId },
             relations: ['docName', 'docName.courseDocs']
         });
      
@@ -82,7 +82,7 @@ export class CoursesService {
         return {
             ...course,
             docName: course.docName.map(doc => ({
-                topic_id: doc.topic_id,
+                topic_id: doc.id,
                 topic_title: doc.topic_title,
                 pa_topic_id: doc.pa_topic_id,
                 course_doc: doc.courseDocs
@@ -92,7 +92,7 @@ export class CoursesService {
 
     async findCourseWithVideoTopic(courseId: number): Promise<CourseWithVideoTopicResponseDto> {
         const course = await this.coursesRepository.findOne({
-            where: { course_id: courseId },
+            where: { id: courseId },
             relations: ['videoTopic'] // docName relation도 추가
         });
     
@@ -110,7 +110,7 @@ export class CoursesService {
             // relations에 course 추가
             const course = await this.coursesRepository.findOne({
                 where: { 
-                    course_id: courseId 
+                    id: courseId 
                 },
                 relations: {
                     course_registrations: {
@@ -138,8 +138,8 @@ export class CoursesService {
     async isApprovedInstructor(loginedUserId: number, courseId: number): Promise<boolean> {
         const registration = await this.courseRegistrationRepository.findOne({
             where: {
-                user: { user_id: loginedUserId }, // 현재 로그인한 사용자 ID
-                course: { course_id: courseId }, // 현재 프로젝트 ID
+                user: { id: loginedUserId }, // 현재 로그인한 사용자 ID
+                course: { id: courseId }, // 현재 프로젝트 ID
                 course_registration_status: RegistrationStatus.APPROVED, // 승인된 상태 확인
             },
         });
@@ -149,7 +149,7 @@ export class CoursesService {
     async update(id: number, updateCourseDto: UpdateCourseDto): Promise<Course> {
         // 1. 강의 존재 확인
         const course = await this.coursesRepository.findOne({
-            where: { course_id: id }
+            where: { id: id }
         });
     
         if (!course) {
@@ -168,7 +168,7 @@ export class CoursesService {
     
     async remove(courseId: number): Promise<void> {
         const course = await this.coursesRepository.findOne({
-            where: { course_id: courseId },
+            where: { id: courseId },
             relations: {
                 docName: true,
                 videoTopic: true,

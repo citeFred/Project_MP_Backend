@@ -37,8 +37,6 @@ import { User } from 'src/user/entities/user.entity';
         RolesGuard,
         OwnershipGuard,
         KakaoStrategy,
-        
-        
     ],
     controllers: [AuthController],
     exports: [AuthService,RolesGuard,OwnershipGuard],

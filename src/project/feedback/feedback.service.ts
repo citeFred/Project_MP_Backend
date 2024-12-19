@@ -4,9 +4,8 @@ import { Repository } from 'typeorm';
 import { Feedback } from './entities/feedback.entity';
 import { CreateFeedbackDto } from './dto/create-feedback.dto';
 import { UpdateFeedbackDto } from './dto/update-feedback.dto';
-import { ProjectDoc } from '../project_doc/entities/project_doc.entity'; // project_doc 엔티티 경로에 맞게 수정
+import { ProjectDoc } from '../project_doc/entities/project_doc.entity';
 import { Project } from '../projects/entities/project.entity';
-import { NotFound } from '@aws-sdk/client-s3';
 
 @Injectable()
 export class FeedbackService {
@@ -21,12 +20,12 @@ export class FeedbackService {
 
     // 프로젝트 ID, DocID가 유효한지 확인
     async validateProjectAndDocId(projectId: number, projectDocId: number): Promise<void> {
-        const project = await this.projectsRepository.findOne({ where: { project_id: projectId } });
+        const project = await this.projectsRepository.findOne({ where: { id: projectId } });
         if (!project) {
             throw new NotFoundException(`Project with ID ${projectId} not found`);
         }
 
-        const projectDoc = await this.projectDocRepository.findOne({ where: { project_doc_id: projectDocId } });
+        const projectDoc = await this.projectDocRepository.findOne({ where: { id: projectDocId } });
         if (!projectDoc) {
             throw new NotFoundException(`Project Document with ID ${projectDocId} not found`);
         }
@@ -46,7 +45,7 @@ export class FeedbackService {
 
     async findOne(id: number, projectId: number, projectDocId: number): Promise<Feedback> {
         await this.validateProjectAndDocId(projectId, projectDocId);
-        const feedback = this.feedbackRepository.findOne({ where: { feedback_id: id }, relations: ['projectDoc'] });
+        const feedback = this.feedbackRepository.findOne({ where: { id: id }, relations: ['projectDoc'] });
         if(!feedback) {
             throw new NotFoundException(`Feedback with ID ${id} not found`)
         }
@@ -71,7 +70,7 @@ export class FeedbackService {
         }
   
         const feedback = await this.feedbackRepository.findOne({
-        where: { feedback_id: id },
+        where: { id: id },
         relations: ['project', 'projectDoc'],
         });
   

@@ -1,11 +1,9 @@
-import { Entity, Column, ManyToOne, PrimaryGeneratedColumn,JoinColumn } from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Exhibition } from '../../exhibitions/entities/exhibition.entity';
+import { CommonEntity } from 'src/common/common.entity';
 
 @Entity()
-export class ExhibitionMember {
-    @PrimaryGeneratedColumn()
-    exhibition_member_id: number;
-
+export class ExhibitionMember extends CommonEntity {
     @Column()
     name: string;
 
@@ -15,7 +13,7 @@ export class ExhibitionMember {
     @Column()
     file_path: string;
 
-    @ManyToOne(() => Exhibition, exhibition => exhibition.exhibitionMembers, { onDelete: 'CASCADE' }) // Exhibition과의 관계 설정
+    @ManyToOne(() => Exhibition, exhibition => exhibition.exhibitionMembers, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'exhibition_id', referencedColumnName: 'exhibition_id'})
     exhibition: Exhibition;
 }

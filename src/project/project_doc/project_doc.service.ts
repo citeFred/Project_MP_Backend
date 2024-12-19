@@ -42,7 +42,7 @@ export class ProjectDocService {
 
     // 프로젝트 ID가 유효한지 확인
     async validateProjectId(projectId: number): Promise<void> {
-        const project = await this.projectRepository.findOne({ where: {project_id: projectId }});
+        const project = await this.projectRepository.findOne({ where: {id: projectId }});
         if (!project) {
             throw new NotFoundException(`Project with ID ${projectId} not found`);
         }
@@ -76,7 +76,7 @@ export class ProjectDocService {
         }
 
         await this.validateProjectId(projectId);
-        const project = await this.projectRepository.findOne({ where: {project_id: projectId }});
+        const project = await this.projectRepository.findOne({ where: {id: projectId }});
 
         const projectDoc = this.projectDocRepository.create({
             ...createProjectDocDto,
@@ -99,7 +99,7 @@ export class ProjectDocService {
 
         const doc = await this.projectDocRepository.findOne({
             where: {
-                project_doc_id: id,
+                id: id,
             },
             relations: ['project'], // 연관된 프로젝트도 함께 가져오기
         });
@@ -129,7 +129,7 @@ export class ProjectDocService {
         }
   
         const doc = await this.projectDocRepository.findOne({
-        where: { project_doc_id: id },
+        where: { id: id },
         relations: ['project'],
         });
   
