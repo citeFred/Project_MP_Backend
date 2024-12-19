@@ -1,8 +1,8 @@
+import { RegistrationStatus } from 'src/enums/registration-status.enum';
 import { CourseRegistration } from '../entities/course_registration.entity';
-import { Registration } from '../../../enums/role.enum';
 
 export class StatusResponseDto {
-    course_registration_status: Registration;
+    course_registration_status: RegistrationStatus;
     course_reporting_date: Date;
 
     constructor(registration: CourseRegistration) {

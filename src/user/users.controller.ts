@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Body, Param, Delete, Put, HttpException, Req, Res, HttpStatus, UseGuards, Request, BadRequestException, ConflictException } from '@nestjs/common';//추가
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './user.entity';
 import { Response } from 'express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { OwnershipGuard } from '../auth/ownership.guard';
+import { User } from './entities/user.entity';
 
 @Controller('users')
 export class UsersController {

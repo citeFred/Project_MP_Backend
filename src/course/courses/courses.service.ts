@@ -5,13 +5,12 @@ import { UpdateCourseDto } from './dto/update-course.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CourseRegistration } from '../course_registration/entities/course_registration.entity';
-import { Registration } from '../../enums/role.enum';
 import { CourseWithVideoTopicResponseDto } from './dto/course-with-videotopic.dto';
-import { User } from 'src/user/user.entity';
+import { User } from 'src/user/entities/user.entity';
 import { CourseResponseDto } from './dto/course-response.dto';
 import { CourseWithDocNameAndCourseDocResponseDto } from './dto/course-with-docname-and-coursedoc.dto';
-import { UserResponseDto } from 'src/user/dto/user-response.dto';
 import { CourseWithCourseRegistrationResponseDto } from './dto/course-with-registration.dto';
+import { RegistrationStatus } from 'src/enums/registration-status.enum';
 
 @Injectable()
 export class CoursesService {
@@ -69,18 +68,6 @@ export class CoursesService {
         }
         return course;
     }
-
-    // registration에서 강의에 대해 status를 조회하는 코드
-    // async findStatus(id: number): Promise<Course> {
-    //     const course = await this.coursesRepository.findOne(
-    //         { where: { course_id: id },
-    //         relations: ['course_registrations'] 
-    //     });
-    //     if (!course) {
-    //         throw new NotFoundException('클래스를 찾지 못했습니다.'); // 예외 처리 추가
-    //     }
-    //     return course;
-    // }
 
     async findCourseWithDocnameAndCourseDoc(courseId: number): Promise<CourseWithDocNameAndCourseDocResponseDto> {
         const course = await this.coursesRepository.findOne({
@@ -153,7 +140,7 @@ export class CoursesService {
             where: {
                 user: { user_id: loginedUserId }, // 현재 로그인한 사용자 ID
                 course: { course_id: courseId }, // 현재 프로젝트 ID
-                course_registration_status: Registration.APPROVED, // 승인된 상태 확인
+                course_registration_status: RegistrationStatus.APPROVED, // 승인된 상태 확인
             },
         });
         return !!registration;

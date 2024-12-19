@@ -1,12 +1,12 @@
 
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable } from 'typeorm';
-import { ProjectRegistration } from '../project/project_registration/entities/registration.entity';
-import { Project } from '../project/projects/entities/project.entity';
-import { Role } from '../enums/role.enum';
-import { Exhibition } from '../exhibition/exhibitions/exhibition.entity';
+import { ProjectRegistration } from 'src/project/project_registration/entities/registration.entity';
+import { Project } from 'src/project/projects/entities/project.entity';
+import { UserRole } from 'src/enums/user-role.enum';
 import { Course } from 'src/course/courses/entities/course.entity';
 import { CourseRegistration } from 'src/course/course_registration/entities/course_registration.entity';
 import { Attendance } from 'src/attendance/entities/attendance.entity';
+import { Exhibition } from 'src/exhibition/exhibitions/entities/exhibition.entity';
 
 @Entity()
 export class User {
@@ -25,14 +25,13 @@ export class User {
     @Column()
     email: string;
 
-
     @Column({
         type: 'enum',
-        enum: Role,
+        enum: UserRole,
         nullable: false,
     })
 
-    user_role: Role; // Role 타입으로 변경
+    user_role: UserRole; // Role 타입으로 변경
 
     @ManyToMany(() => Course, course => course.user)
     @JoinTable()
@@ -54,11 +53,10 @@ export class User {
     project_registrations: ProjectRegistration[];
 
     // user - course_registration  연결 추가
-    @OneToMany(() => CourseRegistration, (course_registration) => course_registration.user, { cascade: true })
+    @OneToMany(() => CourseRegistration, (course_registration) => course_registration.user)
     course_registrations: CourseRegistration[];
 
     // 학생이 출석 기록을 가질 수 있는 관계 설정
     @OneToMany(() => Attendance, attendance => attendance.user)
     attendances: Attendance[];
 }
-

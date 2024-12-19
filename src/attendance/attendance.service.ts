@@ -4,10 +4,10 @@ import { Repository } from 'typeorm';
 import { Attendance } from './entities/attendance.entity';
 import { CreateAttendanceDto } from './dto/create-attendance.dto';
 import { UpdateStudentAttendanceDto } from './dto/update-student-attendance.dto';
-import { User } from '../user/user.entity'; // User 엔티티 임포트
+import { User } from 'src/user/entities/user.entity';
 import { Course } from '../course/courses/entities/course.entity'; // Course 엔티티 임포트
 import { CourseRegistration } from '../course/course_registration/entities/course_registration.entity'; // CourseRegistration 엔티티 임포트
-import { Registration } from 'src/enums/role.enum';
+import { RegistrationStatus } from 'src/enums/registration-status.enum';
 
 @Injectable()
 export class AttendanceService {
@@ -122,7 +122,7 @@ export class AttendanceService {
         const registrations = await this.courseRegistrationRepository.find({
             where: { 
                 course: { course_id: courseId }, 
-                course_registration_status: Registration.APPROVED // 'approved' 상태의 학생만 가져오기
+                course_registration_status: RegistrationStatus.APPROVED // 'approved' 상태의 학생만 가져오기
             },
             relations: ['user'], // 사용자 정보를 가져옵니다.
         });
@@ -136,7 +136,7 @@ export class AttendanceService {
             .createQueryBuilder('registration')
             .leftJoinAndSelect('registration.user', 'user') // 사용자와 조인
             .where('registration.course_id = :courseId', { courseId })
-            .andWhere('registration.course_registration_status = :status', { status: Registration.APPROVED })
+            .andWhere('registration.course_registration_status = :status', { status: RegistrationStatus.APPROVED })
             .getMany(); // 여러 개의 결과 가져오기
     
         // 출석 기록 생성 및 저장

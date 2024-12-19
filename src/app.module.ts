@@ -2,9 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './user/users.module';
-import { User } from './user/user.entity';
 import { ExhibitionModule } from './exhibition/exhibitions/exhibitions.module';
-import { Exhibition } from './exhibition/exhibitions/exhibition.entity';
+import { Exhibition } from './exhibition/exhibitions/entities/exhibition.entity';
 import { Course } from './course/courses/entities/course.entity'
 import { CoursesModule } from './course/courses/courses.module';
 import { DocNameModule } from './course/doc_name/doc_name.module';
@@ -45,9 +44,6 @@ import { typeOrmConfig } from './configs/typeorm.config';
         ConfigModule.forRoot(), // ConfigModule 추가
         TypeOrmModule.forRoot(typeOrmConfig),
 
-        // ServeStaticModule.forRoot({
-        //     rootPath: join(__dirname, '..', 'public'),
-        // }),
         MulterModule.register({
             dest: './uploads',
         }),

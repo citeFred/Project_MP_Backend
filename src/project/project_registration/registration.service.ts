@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProjectRegistration } from './entities/registration.entity';
 import { CreateProjectRegistrationDto } from './dto/create-registration.dto';
-import  { User } from '../../user/user.entity';
+import { User } from 'src/user/entities/user.entity';
 import { Project } from '../../project/projects/entities/project.entity';
 import { ConflictException } from '@nestjs/common';
 import { UpdateProjectRegistrationDto } from './dto/update-registration.dto';

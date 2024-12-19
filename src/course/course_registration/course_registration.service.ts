@@ -5,9 +5,9 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CourseRegistration } from './entities/course_registration.entity';
 import { Course } from '../courses/entities/course.entity';
-import { User } from '../../user/user.entity';
+import { User } from 'src/user/entities/user.entity';
 import { ConflictException } from '@nestjs/common';
-import { Registration } from 'src/enums/role.enum';
+import { RegistrationStatus } from 'src/enums/registration-status.enum';
 
 @Injectable()
 export class CourseRegistrationService {
@@ -99,7 +99,7 @@ export class CourseRegistrationService {
             .leftJoinAndSelect('registrations.course', 'course')
             .where('registrations.userId = :userId', { userId })  // user.id -> registrations.userId
             .andWhere('registrations.courseId = :courseId', { courseId })
-            .andWhere('registrations.course_registration_status = :status', { status: Registration.APPROVED })
+            .andWhere('registrations.course_registration_status = :status', { status: RegistrationStatus.APPROVED })
             .getOne();
     }
 

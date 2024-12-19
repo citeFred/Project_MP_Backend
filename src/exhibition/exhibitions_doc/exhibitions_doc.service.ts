@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateExhibitionsDocDto } from './dto/create-exhibitions_doc.dto';
 import { UpdateExhibitionsDocDto } from './dto/update-exhibitions_doc.dto';
 import { ExhibitionDoc } from './entities/exhibition_doc.entity';
-import { Exhibition } from '../exhibitions/exhibition.entity';
+import { Exhibition } from '../exhibitions/entities/exhibition.entity';
 import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { v4 as uuidv4 } from 'uuid';
 import * as dotenv from 'dotenv';

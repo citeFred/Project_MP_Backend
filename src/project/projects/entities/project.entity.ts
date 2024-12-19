@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, OneToMany, JoinTable } from 'typeorm';
-import { User } from '../../../user/user.entity';
 import { ProjectDoc } from '../../project_doc/entities/project_doc.entity';
 import { ProjectRegistration } from 'src/project/project_registration/entities/registration.entity';
+import { User } from 'src/user/entities/user.entity';
 
 @Entity()
 export class Project {

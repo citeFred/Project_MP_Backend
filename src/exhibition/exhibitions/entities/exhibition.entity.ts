@@ -1,8 +1,8 @@
 import { Entity, Column, ManyToOne, OneToMany, PrimaryGeneratedColumn, JoinColumn } from 'typeorm';
-import { User } from '../../user/user.entity';
-import { ExhibitionDoc } from '../exhibitions_doc/entities/exhibition_doc.entity';
-import { ExhibitionMember } from '../exhibitions_member/entities/exhibition_member.entity';
-import { ExhibitionIntro } from '../exhibition_intro/entities/exhibition_intro.entity';
+import { ExhibitionDoc } from '../../exhibitions_doc/entities/exhibition_doc.entity';
+import { ExhibitionMember } from '../../exhibitions_member/entities/exhibition_member.entity';
+import { ExhibitionIntro } from '../../exhibition_intro/entities/exhibition_intro.entity';
+import { User } from 'src/user/entities/user.entity';
 
 @Entity()
 export class Exhibition {

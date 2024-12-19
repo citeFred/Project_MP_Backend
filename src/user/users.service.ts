@@ -1,13 +1,12 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common'; // HttpException 추가
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { BadRequestException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { HashService } from '../auth/hash.service';
 import { ConflictException } from '@nestjs/common'; // 오류메세지 반환 http 409번
-import { Registration } from '../enums/role.enum';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {

@@ -1,9 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany } from 'typeorm';
 import { DocName } from '../../doc_name/entities/doc_name.entity';
 import { VideoTopic } from 'src/course/video_topic/entities/video_topic.entity';
-import { User } from 'src/user/user.entity';
 import { CourseRegistration } from 'src/course/course_registration/entities/course_registration.entity';
 import { Attendance } from 'src/attendance/entities/attendance.entity';
+import { User } from 'src/user/entities/user.entity';
 
 @Entity()
 export class Course {
