@@ -52,12 +52,12 @@ export class OwnershipGuard extends JwtAuthGuard implements CanActivate {
                 throw new ForbiddenException('존재하지 않는 코스입니다.');
             }
 
-            const owner = course.user.find(user => user.user_id === user.user_id);
+            const owner = course.user.find(user => user.id === user.id);
             if (!owner) {
                 throw new ForbiddenException('자신의 리소스만 수정할 수 있습니다.');
             }
         
-            resourceOwnerId = owner.user_id; 
+            resourceOwnerId = owner.id; 
         }
         
         else if (resourceType === 'project') {
@@ -66,11 +66,11 @@ export class OwnershipGuard extends JwtAuthGuard implements CanActivate {
                 throw new ForbiddenException('존재하지 않는 프로젝트입니다.');
             }
             // 프로젝트와 관련된 사용자 중 요청한 사용자 ID와 일치하는 사용자 찾기
-            const owner = project.users.find(user => user.user_id === user.user_id);
+            const owner = project.users.find(user => user.id === user.id);
             if (!owner) {
                 throw new ForbiddenException('자신의 리소스만 수정할 수 있습니다.');
             }
-            resourceOwnerId = owner.user_id; 
+            resourceOwnerId = owner.id; 
         }
 
         else if (resourceType === 'project') {
@@ -79,11 +79,11 @@ export class OwnershipGuard extends JwtAuthGuard implements CanActivate {
                 throw new ForbiddenException('존재하지 않는 프로젝트입니다.');
             }
             // 프로젝트와 관련된 사용자 중 요청한 사용자 ID와 일치하는 사용자 찾기
-            const owner = project.users.find(user => user.user_id === user.user_id);
+            const owner = project.users.find(user => user.id === user.id);
             if (!owner) {
                 throw new ForbiddenException('자신의 리소스만 수정할 수 있습니다.');
             }
-            resourceOwnerId = owner.user_id; 
+            resourceOwnerId = owner.id; 
         }
 
         else if (resourceType === 'projectDoc') {
@@ -92,11 +92,11 @@ export class OwnershipGuard extends JwtAuthGuard implements CanActivate {
                 throw new ForbiddenException('존재하지 않는 프로젝트 문서 입니다.');
             }
             // 프로젝트와 관련된 사용자 중 요청한 사용자 ID와 일치하는 사용자 찾기
-            const owner = projectDoc.project.users.find(user => user.user_id === user.user_id);
+            const owner = projectDoc.project.users.find(user => user.id === user.id);
             if (!owner) {
                 throw new ForbiddenException('자신의 리소스만 수정할 수 있습니다.');
             }
-            resourceOwnerId = owner.user_id; 
+            resourceOwnerId = owner.id; 
         }
 
         else if (resourceType === 'feedback') {
@@ -105,38 +105,12 @@ export class OwnershipGuard extends JwtAuthGuard implements CanActivate {
                 throw new ForbiddenException('존재하지 않는 프로젝트 문서 입니다.');
             }
             // 프로젝트와 관련된 사용자 중 요청한 사용자 ID와 일치하는 사용자 찾기
-            const owner = feedback.projectDoc.project.users.find(user => user.user_id === user.user_id);
+            const owner = feedback.projectDoc.project.users.find(user => user.id === user.id);
             if (!owner) {
                 throw new ForbiddenException('자신의 리소스만 수정할 수 있습니다.');
             }
-            resourceOwnerId = owner.user_id; 
+            resourceOwnerId = owner.id; 
         }
-
-        // else if ( resourceType ==='exhibition'){
-        //     const exhibition = await this.exhibitionService.findOne(resourceId);
-        //     if (!exhibition){
-        //         throw new ForbiddenException('존재하지 않는 전시회입니다.');
-        //     }
-
-        //     const owner = exhibition.user.find(user => user.user_id === user.user_id)
-        //     if (!owner) {
-        //         throw new ForbiddenException('자신의 리소스만 수정할 수 있습니다.');
-        //     }
-        //     resourceOwnerId = owner.user_id; 
-        // }
-        
-        // else if ( resourceType ==='exhibitionDoc'){
-        //     const exhibitionDoc = await this.exhibitionDocService.findOne(resourceId);
-        //     if (!exhibitionDoc){
-        //         throw new ForbiddenException('존재하지 않는 전시회입니다.');
-        //     }
-
-        //     const owner = exhibitionDoc.exhibition.user.find(user => user.user_id === user.user_id)
-        //     if (!owner) {
-        //         throw new ForbiddenException('자신의 리소스만 수정할 수 있습니다.');
-        //     }
-        //     resourceOwnerId = owner.user_id; 
-        // }
 
         else if ( resourceType ==='courseDoc'){
             const courseDoc = await this.courseDocService.findById(resourceId);
@@ -144,11 +118,11 @@ export class OwnershipGuard extends JwtAuthGuard implements CanActivate {
                 throw new ForbiddenException('존재하지 않는 전시회입니다.');
             }
 
-            const owner = courseDoc.docName.course.user.find(user => user.user_id === user.user_id)
+            const owner = courseDoc.docName.course.user.find(user => user.id === user.id)
             if (!owner) {
                 throw new ForbiddenException('자신의 리소스만 수정할 수 있습니다.');
             }
-            resourceOwnerId = owner.user_id; 
+            resourceOwnerId = owner.id; 
         }
 
         else if ( resourceType ==='docName'){
@@ -157,11 +131,11 @@ export class OwnershipGuard extends JwtAuthGuard implements CanActivate {
                 throw new ForbiddenException('존재하지 않는 전시회입니다.');
             }
 
-            const owner = docName.course.user.find(user => user.user_id === user.user_id)
+            const owner = docName.course.user.find(user => user.id === user.id)
             if (!owner) {
                 throw new ForbiddenException('자신의 리소스만 수정할 수 있습니다.');
             }
-            resourceOwnerId = owner.user_id; 
+            resourceOwnerId = owner.id; 
         }
 
 

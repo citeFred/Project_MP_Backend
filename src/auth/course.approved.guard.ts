@@ -7,7 +7,7 @@ export class ApprovedInstructorGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const loginedUserId = request.user.user_id; // 로그인된 사용자 ID
+    const loginedUserId = request.user.id; // 로그인된 사용자 ID
     const courseId = +request.params.id; // 강의 ID
 
     // 사용자가 해당 강의에 대해 승인된 강사인지 확인

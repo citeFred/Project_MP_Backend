@@ -1,13 +1,12 @@
-import { IsNotEmpty, IsEnum, IsDateString, IsNumber } from 'class-validator';
-import { Registration } from '../../../enums/role.enum';
+import { IsNotEmpty, IsEnum, IsDateString } from 'class-validator';
+import { RegistrationStatus } from 'src/enums/registration-status.enum';
 
 export class CreateProjectRegistrationDto {
-
     @IsNotEmpty()
     @IsDateString()
     reporting_date: string;
 
     @IsNotEmpty()
-    @IsEnum(Registration)
-    registration_status: Registration;
+    @IsEnum(RegistrationStatus)
+    registration_status: RegistrationStatus;
 }

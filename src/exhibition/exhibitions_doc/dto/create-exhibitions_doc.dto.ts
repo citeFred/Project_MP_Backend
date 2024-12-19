@@ -1,12 +1,12 @@
-import { IsInt, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsOptional } from 'class-validator';
 
 export class CreateExhibitionsDocDto {
     @IsNotEmpty()
     exhibitions_id: number;
 
     @IsOptional()
-    outputImages?: Express.Multer.File[]; // 이미지 파일 배열
+    outputImages?: Express.Multer.File[];
 
     @IsOptional()
-    outputVideo?: Express.Multer.File[]; // 비디오 파일 배열
+    outputVideo?: Express.Multer.File[];
 }

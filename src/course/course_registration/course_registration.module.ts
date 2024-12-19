@@ -4,7 +4,7 @@ import { CourseRegistrationService } from './course_registration.service';
 import { CourseRegistrationController } from './course_registration.controller';
 import { CourseRegistration } from './entities/course_registration.entity';
 import { Course } from '../courses/entities/course.entity';
-import { User } from 'src/user/user.entity';
+import { User } from 'src/user/entities/user.entity';
 import { UsersModule } from 'src/user/users.module';
 
 @Module({

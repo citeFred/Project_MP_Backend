@@ -10,20 +10,9 @@ import { Roles } from '../../auth/roles.decorator';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 
 // @UseGuards(JwtAuthGuard,RolesGuard)
-@Controller('exhibition-docs')
+@Controller('api/exhibition-docs')
 export class ExhibitionsDocController {
     constructor(private readonly exhibitionDocsService: ExhibitionsDocService) {}
-
-    // @Post('register')
-    // @UseInterceptors(FileInterceptor('file')) // 'file' 필드에서 파일을 업로드 받음
-    // @Roles('admin')
-    // async createExhibitionDoc(
-    //     @Body() createExhibitionDocDto: CreateExhibitionsDocDto,
-    //     @UploadedFile() file: Express.Multer.File, // 업로드된 파일을 가져옴
-    // ): Promise<{ message: string; doc: any }> { // 반환 타입 정의
-    //     const doc = await this.exhibitionDocsService.createExhibitionDoc(createExhibitionDocDto, file);
-    //     return { message: '전시 문서가 성공적으로 등록되었습니다.', doc };
-    // }
   
     @Post('register')
     @UseInterceptors(FileFieldsInterceptor([

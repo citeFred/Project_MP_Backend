@@ -4,7 +4,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from '../user/user.entity'; // User 엔티티 경로
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -19,7 +19,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(payload: any): Promise<User> {
-        const user = await this.userRepository.findOne({ where: { user_id: payload.id } }); // user_id에 맞게 수정
+        const user = await this.userRepository.findOne({ where: { id: payload.id } }); // user_id에 맞게 수정
         if (!user) {
             throw new UnauthorizedException(); // 사용자 미존재 에러
         }

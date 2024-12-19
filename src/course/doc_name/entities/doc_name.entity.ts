@@ -1,12 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import { Entity, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
 import { Course } from '../../courses/entities/course.entity';
 import { CourseDoc } from '../../../course/course_doc/entities/course_doc.entity';
+import { CommonEntity } from 'src/common/common.entity';
 
 @Entity()
-export class DocName {
-    @PrimaryGeneratedColumn()
-    topic_id: number;
-
+export class DocName extends CommonEntity {
     @Column({ type: 'varchar', length: 20 })
     topic_title: string;
 
@@ -15,13 +13,13 @@ export class DocName {
     
     @ManyToOne(() => DocName, docName => docName.subTopics, { 
         nullable: true,
-        onDelete: 'CASCADE'  // This will handle the foreign key constraint
+        onDelete: 'CASCADE'
     })
-    @JoinColumn({ name: 'pa_topic_id' })
+    @JoinColumn()
     pa_topic: DocName;
 
     @OneToMany(() => DocName, docName => docName.pa_topic, { 
-        cascade: true  // Change to true to cascade all operations
+        cascade: true
     })
     subTopics: DocName[];
 

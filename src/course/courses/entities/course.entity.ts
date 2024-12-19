@@ -1,15 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany } from 'typeorm';
+import { Entity, Column, OneToMany, ManyToMany } from 'typeorm';
 import { DocName } from '../../doc_name/entities/doc_name.entity';
 import { VideoTopic } from 'src/course/video_topic/entities/video_topic.entity';
-import { User } from 'src/user/user.entity';
 import { CourseRegistration } from 'src/course/course_registration/entities/course_registration.entity';
 import { Attendance } from 'src/attendance/entities/attendance.entity';
+import { User } from 'src/user/entities/user.entity';
+import { CommonEntity } from 'src/common/common.entity';
 
 @Entity()
-export class Course {
-    @PrimaryGeneratedColumn()
-    course_id: number;
-
+export class Course extends CommonEntity {
     @Column({ type: 'varchar', length: 40 })
     course_title: string;
 
@@ -34,11 +32,9 @@ export class Course {
     @OneToMany(() => VideoTopic, (videoTopic) => videoTopic.course, { cascade: true })
     videoTopic: VideoTopic[];
 
-    // course - course_registration
     @OneToMany(() => CourseRegistration, (course_registration) => course_registration.course, { cascade: true })
     course_registrations: CourseRegistration[];
 
     @OneToMany(() => Attendance, attendance => attendance.course)
     attendances: Attendance[];
-
 }

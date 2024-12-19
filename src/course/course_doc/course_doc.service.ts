@@ -46,13 +46,13 @@ export class CourseDocService {
         topicId: number,
     ): Promise<void> {
         const CourseId = await this.coursesRepository.findOne({
-            where: { course_id: courseId }
+            where: { id: courseId }
         })
         if (!CourseId) {
             throw new NotFoundException('강의를 찾을 수 없습니다.')
         }
         const DocName = await this.docNameRepository.findOne({
-            where: { topic_id: topicId }
+            where: { id: topicId }
         })
         if (!DocName) {
             throw new NotFoundException('자료 주제를 찾을 수 없습니다.')
@@ -87,7 +87,7 @@ export class CourseDocService {
             
             // saveFile의 결과를 반환
             const docname = await this.docNameRepository.findOne({ 
-                where: { topic_id: topicId }
+                where: { id: topicId }
             })
 
             const courseDoc = this.courseDocRepository.create({
@@ -176,7 +176,7 @@ export class CourseDocService {
         try {
             await this.validate(courseId, topicId)
             const courseDoc = await this.courseDocRepository.findOne({
-                where: { course_document_id: id },
+                where: { id: id },
                 relations: ['docName'],
             });
             if (!courseDoc) {
@@ -195,7 +195,7 @@ export class CourseDocService {
         }
   
         const doc = await this.courseDocRepository.findOne({
-        where: { course_document_id: id },
+        where: { id: id },
         relations: ['course'],
         });
   

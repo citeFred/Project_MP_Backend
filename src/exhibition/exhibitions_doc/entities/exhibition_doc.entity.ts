@@ -1,17 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne ,JoinColumn} from 'typeorm';
-import { Exhibition } from '../../exhibitions/exhibition.entity';
+import { Entity, Column, ManyToOne ,JoinColumn} from 'typeorm';
+import { Exhibition } from '../../exhibitions/entities/exhibition.entity';
+import { CommonEntity } from 'src/common/common.entity';
 
 @Entity()
-export class ExhibitionDoc {
-    @PrimaryGeneratedColumn()
-    exhibition_doc_id: number;
+export class ExhibitionDoc extends CommonEntity {
+    @Column()
+    file_path: string;
 
     @ManyToOne(() => Exhibition, exhibition => exhibition.exhibitionDocs, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'exhibition_id', referencedColumnName: 'exhibition_id'})
+    @JoinColumn()
     exhibition: Exhibition;
-
-    @Column()
-    file_path: string; 
-
-   
 }

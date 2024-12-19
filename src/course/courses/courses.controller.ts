@@ -13,7 +13,7 @@ import { CourseWithCourseRegistrationResponseDto } from './dto/course-with-regis
 import { UpdateCourseDto } from './dto/update-course.dto';
 
 // @UseGuards(JwtAuthGuard,RolesGuard)
-@Controller('courses')
+@Controller('api/courses')
 export class CoursesController {
     constructor(private readonly coursesService: CoursesService) {}
 
@@ -41,19 +41,6 @@ export class CoursesController {
             data: data
         };
     }
-
-    // status
-    // @Get('/registration-status/:id')
-    // // @Roles('student','instructor','admin')
-    // async findStatus(
-    //     @Param('id') id: number,
-    // ): Promise<{ message: string; data: CourseResponseDto }> {
-    //     const data = await this.coursesService.findStatus(id);
-    //     return {
-    //         message: "강의 조회에 성공하셨습니다",
-    //         data: data
-    //     };
-    // }
 
     // 관리자 강의 삭제
     @Delete(':id/delete')
@@ -137,15 +124,4 @@ export class CoursesController {
             data: data
         };
     }
-
-    // @Get(':id/read')
-    // async findOne(
-    //   @Param('id') id: number
-    // ): Promise<{ message: string; data: DocNameResponseDto }> {
-    //     const data = await this.coursesService.findOne(id);
-    //     return {
-    //         message: "특정 강의 조회에 성공하셨습니다",
-    //         data: data
-    //     };
-    // }
 }

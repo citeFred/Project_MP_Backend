@@ -6,7 +6,7 @@ export class VideoResponseDto {
     url: string;
 
     constructor(video: Video) {
-        this.video_id = video.video_id;
+        this.video_id = video.id;
         this.video_title = video.video_title;
         this.url = video.video_url
     }

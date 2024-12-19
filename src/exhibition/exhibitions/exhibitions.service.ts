@@ -1,5 +1,5 @@
 import { Injectable,ConflictException,BadRequestException,NotFoundException,InternalServerErrorException} from '@nestjs/common';
-import { Exhibition } from './exhibition.entity';
+import { Exhibition } from './entities/exhibition.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository,Not } from 'typeorm';
 import { CreateExhibitionDto } from './dto/create-exhibition.dto';
@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 import * as dotenv from 'dotenv';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
-dotenv.config(); // .env 파일 로드
+dotenv.config();
 @Injectable()
 export class ExhibitionService {
         private s3: S3Client;
@@ -17,7 +17,6 @@ export class ExhibitionService {
             @InjectRepository(Exhibition)
             private exhibitionsRepository: Repository<Exhibition>
         ) { 
-            // .env 파일에서 AWS 자격 증명 및 리전 가져오기
              const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
              const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
              const AWS_REGION = process.env.AWS_REGION;
@@ -77,24 +76,16 @@ export class ExhibitionService {
 
         async findAll(): Promise<Exhibition[]> {
             const exhibitions = await this.exhibitionsRepository.find({ relations: ['exhibitionDocs'] });
-            // 각 전시회의 exhibition_doc에서 file_path를 사용하여 URL 생성
-            // for (const exhibition of exhibitions) {
-            //     if (exhibition.exhibitionDocs) {
-            //         for (const doc of exhibition.exhibitionDocs) {
-            //             doc.file_path = await this.getSignedUrl(doc.file_path);
-            //         }
-            //     }
-            // }
             return exhibitions
         }
 
         async getSignedUrl(exhibitionId: number): Promise<string> {
             const exhibition = await this.exhibitionsRepository.findOne({
-                where: { exhibition_id: exhibitionId}
+                where: { id: exhibitionId}
             })
             if(!exhibition){
                 console.error('유효하지 않은 exhibitionId:', exhibitionId);
-                throw new Error('전시 정보를 찾을 수 없습니다.'); // 오류 던지기
+                throw new Error('전시 정보를 찾을 수 없습니다.');
             }
             const filePath = exhibition.file_path;
             console.log('파일 경로: ', filePath)
@@ -106,10 +97,10 @@ export class ExhibitionService {
             try {
                 // 프리사인드 URL 생성
                 const signedUrl = await getSignedUrl(this.s3, command, { expiresIn: 60 });
-                return signedUrl; // URL 반환
+                return signedUrl;
             } catch (error) {
                 console.error('프리사인드 URL 생성 실패:', error);
-                throw new Error('프리사인드 URL 생성 중 오류가 발생했습니다.'); // 오류 발생
+                throw new Error('프리사인드 URL 생성 중 오류가 발생했습니다.');
             }
         }
     
@@ -119,7 +110,7 @@ export class ExhibitionService {
             }
         
             const exhibition = await this.exhibitionsRepository.findOne({
-                where: { exhibition_id: id },
+                where: { id: id },
                 relations: ['exhibitionDocs', 'exhibitionMembers', 'exhibitionIntros'],
             });
         
@@ -175,7 +166,7 @@ export class ExhibitionService {
 
         async remove(id: number): Promise<void> {
             const result = await this.exhibitionsRepository.delete({
-                exhibition_id: id,
+                id: id,
             });
         
             if (result.affected === 0) {
@@ -203,7 +194,7 @@ export class ExhibitionService {
                     throw new ConflictException('전시 제목이 현재 제목과 동일합니다');
                 }
         
-                if (await this.isTitleDuplicate(newTitle, exhibition.exhibition_id)) {
+                if (await this.isTitleDuplicate(newTitle, exhibition.id)) {
                     throw new ConflictException('전시 제목이 이미 존재합니다');
                 }
         
@@ -225,7 +216,7 @@ export class ExhibitionService {
         
         async isTitleDuplicate(exhibition_title: string, exhibitionsId: number): Promise<boolean> {
             const count = await this.exhibitionsRepository.count({
-                where: { exhibition_title, exhibition_id: Not(exhibitionsId) }
+                where: { exhibition_title, id: Not(exhibitionsId) }
             });
             return count > 0; // 존재하면 true, 아니면 false
         }

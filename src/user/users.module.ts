@@ -2,7 +2,6 @@ import { Module, forwardRef } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './user.entity'; 
 import { HashService } from '../auth/hash.service';
 import { ProjectsModule } from '../project/projects/projects.module'; 
 import * as dotenv from 'dotenv';
@@ -13,10 +12,9 @@ import { DocNameModule } from 'src/course/doc_name/doc_name.module';
 import { ProjectDocModule } from 'src/project/project_doc/project_doc.module';
 import { FeedbackModule } from 'src/project/feedback/feedback.module';
 import { CoursesModule } from 'src/course/courses/courses.module';
+import { User } from './entities/user.entity';
 dotenv.config();
 
-// ProjectsModule 임포트
-//손정민 작성
  @Module({
     imports: [
         TypeOrmModule.forFeature([User]),
@@ -28,10 +26,9 @@ dotenv.config();
         forwardRef(() => ProjectDocModule),
         forwardRef(() => FeedbackModule),
         forwardRef(() => CoursesModule),
-         // ProjectsModule을 forwardRef로 임포트
     ],
     providers: [UsersService,HashService],
     controllers: [UsersController],
-    exports: [UsersService,HashService, TypeOrmModule.forFeature([User])], // 필요한 경우 UsersService를 내보냄
+    exports: [UsersService,HashService, TypeOrmModule.forFeature([User])],
 })
 export class UsersModule {}

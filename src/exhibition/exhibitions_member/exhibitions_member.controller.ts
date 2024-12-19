@@ -10,7 +10,7 @@ import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import { UpdateExhibitionMemberDto } from './dto/update-exhibitions_member.dto';
 
 // @UseGuards(JwtAuthGuard, RolesGuard)
-@Controller('exhibition-members')
+@Controller('api/exhibition-members')
 export class ExhibitionsMemberController {
     constructor(private readonly exhibitionsMemberService: ExhibitionsMemberService) {}
 
