@@ -25,7 +25,7 @@ export class AuthService {
     ) {}
 
 
-    async login(id: string, password: string) {
+    async login(account_id: string, password: string) {
         
         if (!process.env.JWT_SECRET) {
             throw new Error('JWT_SECRET is not defined');
@@ -36,10 +36,10 @@ export class AuthService {
             .createQueryBuilder('user')
             .leftJoinAndSelect('user.course_registrations', 'course_registrations')
             .leftJoinAndSelect('course_registrations.course', 'course')
-            .where('user.id = :id', { id })
+            .where('user.account_id = :account_id', { account_id })
             .getOne();
         console.log(user);
-        console.log(id);
+        console.log(account_id);
         // console.log();
         
         if (!user) {
